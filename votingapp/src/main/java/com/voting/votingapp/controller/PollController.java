@@ -1,6 +1,7 @@
 package com.voting.votingapp.controller;
 
 import com.voting.votingapp.models.Poll;
+import com.voting.votingapp.request.Vote;
 import com.voting.votingapp.services.PollService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,5 +32,10 @@ public class PollController {
         return pollService.getPollById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/vote")
+    public void vote(@RequestBody Vote vote) {
+        pollService.vote(vote.getPollId(), vote.getOptionIndex());
     }
 }

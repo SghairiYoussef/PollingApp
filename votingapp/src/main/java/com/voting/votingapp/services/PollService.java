@@ -1,5 +1,6 @@
 package com.voting.votingapp.services;
 
+import com.voting.votingapp.models.OptionVote;
 import com.voting.votingapp.models.Poll;
 import com.voting.votingapp.repositories.PollRepository;
 import org.springframework.stereotype.Service;
@@ -25,5 +26,17 @@ public class PollService {
 
     public Optional<Poll> getPollById(Long id) {
         return pollRepository.findById(id);
+    }
+
+    public void vote(Long pollId, int optionIndex) {
+        Poll poll = pollRepository.findById(pollId)
+                .orElseThrow(() -> new IllegalArgumentException("Poll not found"));
+        List<OptionVote> options = poll.getOptions();
+        if (optionIndex < 0 || optionIndex >= options.size()) {
+            throw new IllegalArgumentException("Option index out of bounds");
+        }
+        OptionVote optionVote = options.get(optionIndex);
+        optionVote.setVoteCount(optionVote.getVoteCount() + 1);
+        pollRepository.save(poll);
     }
 }
