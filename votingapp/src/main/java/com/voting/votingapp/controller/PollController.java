@@ -1,6 +1,6 @@
 package com.voting.votingapp.controller;
 
-import com.voting.votingapp.model.Poll;
+import com.voting.votingapp.models.Poll;
 import com.voting.votingapp.services.PollService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

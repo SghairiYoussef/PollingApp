@@ -1,4 +1,4 @@
-package com.voting.votingapp.model;
+package com.voting.votingapp.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -17,8 +17,5 @@ public class Poll {
     private String question;
 
     @ElementCollection
-    private List<String> options = new ArrayList<>();
-
-    @ElementCollection
-    private List<Long> votes = new ArrayList<>();
+    private List<OptionVote> options = new ArrayList<>();
 }
