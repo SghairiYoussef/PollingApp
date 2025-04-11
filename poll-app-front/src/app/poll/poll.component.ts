@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 export class PollComponent implements OnInit {
 
   newPoll: Poll = {
+    id: 0,
     question: '',
     options: [
       { optionText: '', voteCount: 0 },
@@ -48,7 +49,11 @@ export class PollComponent implements OnInit {
       alert('All options must be filled in.');
       return;
     }
-    this.pollService.createPoll(this.newPoll).subscribe({
+
+    const pollToSend = { ...this.newPoll };
+    delete (pollToSend as any).id;
+
+    this.pollService.createPoll(pollToSend).subscribe({
       next: (createdPoll: Poll) => {
         this.polls.push(createdPoll);
         this.resetPoll();
@@ -61,6 +66,7 @@ export class PollComponent implements OnInit {
 
   resetPoll() {
     this.newPoll = {
+      id: 0,
       question: '',
       options: [
         { optionText: '', voteCount: 0 },
