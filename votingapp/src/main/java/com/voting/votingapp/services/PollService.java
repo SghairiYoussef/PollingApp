@@ -5,6 +5,7 @@ import com.voting.votingapp.repositories.PollRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PollService {
@@ -20,5 +21,9 @@ public class PollService {
 
     public List<Poll> getAllPolls() {
         return pollRepository.findAll();
+    }
+
+    public Optional<Poll> getPollById(Long id) {
+        return pollRepository.findById(id);
     }
 }
