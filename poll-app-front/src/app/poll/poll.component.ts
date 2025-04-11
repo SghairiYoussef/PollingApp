@@ -12,6 +12,13 @@ import { FormsModule } from '@angular/forms';
 })
 export class PollComponent implements OnInit {
 
+  newPoll: Poll = {
+    question: '',
+    options: [
+      { optionText: '', voteCount: 0 },
+      { optionText: '', voteCount: 0 }
+    ]
+  }
   
   polls: Poll[] = [];
   
@@ -31,4 +38,59 @@ export class PollComponent implements OnInit {
       }
     });
   }
+
+  createPoll() {
+    if (this.newPoll.question.trim() === '') {
+      alert('Question cannot be empty.');
+      return;
+    }
+    if (this.newPoll.options.some(option => option.optionText.trim() === '')) {
+      alert('All options must be filled in.');
+      return;
+    }
+    this.pollService.createPoll(this.newPoll).subscribe({
+      next: (createdPoll: Poll) => {
+        this.polls.push(createdPoll);
+        this.resetPoll();
+      },
+      error: (err: any) => {
+        console.log('Error creating poll', err);
+      }
+    });
+  }
+
+  resetPoll() {
+    this.newPoll = {
+      question: '',
+      options: [
+        { optionText: '', voteCount: 0 },
+        { optionText: '', voteCount: 0 }
+      ]
+    };
+  }
+
+  removeOption(index: number) {
+    if (this.newPoll.options.length > 2) {
+      this.newPoll.options.splice(index, 1);
+    } else {
+      alert('At least two options are required.');
+    }
+  }
+
+  vote(pollId: number, optionIndex: number) {
+    this.pollService.vote(pollId, optionIndex).subscribe({
+      next: () => {
+        this.loadPolls();
+      },
+      error: (err: any) => {
+        console.log('Error voting', err);
+      }
+    });
+  }
+
+  trackByIndex(index: number): number {
+    console.log('trackByIndex', index);
+    return index;
+  }
+
 }
