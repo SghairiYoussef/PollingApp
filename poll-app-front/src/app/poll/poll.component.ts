@@ -75,6 +75,15 @@ export class PollComponent implements OnInit {
     };
   }
 
+  addOption() {
+    if (this.newPoll.options.length < 10) {
+      this.newPoll.options.push({ optionText: '', voteCount: 0 });
+    }
+    else {
+      alert('Maximum of 10 options allowed.');
+    }
+  }
+
   removeOption(index: number) {
     if (this.newPoll.options.length > 2) {
       this.newPoll.options.splice(index, 1);

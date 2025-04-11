@@ -18,8 +18,13 @@
                 required
                 [(ngModel)]="option.optionText"
             />
+            <button class="btn btn-danger" (click)="removeOption(i)" *ngIf="newPoll.options.length > 2">
+                Remove
+            </button>
         </div>
     </div>
+
+    <button class="btn btn-primary me-2" (click)="addOption()">Add Option</button>
 
     <button class="btn btn-success me-2" (click)="createPoll()">Create Poll</button>
 
